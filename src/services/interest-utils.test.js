@@ -1,7 +1,7 @@
 import {
   getYearInterest,
   getMonthInterest,
-  calculateNextMonth
+  getNextMonthSimple
 } from './interest-utils';
 
 describe('interest utils', () => {
@@ -27,20 +27,22 @@ describe('interest utils', () => {
     });
   });
 
-  describe('calculateNextMonth', () => {
+  describe('getNextMonth - simple', () => {
     const principal = 1200;
     const rate = 3.3;
     let result;
 
     beforeEach(() => {
+      const interest = getMonthInterest(principal, rate);
       const previous = {
         number: 1,
-        principal: principal,
+        principal,
         balance: principal,
-        interest: getMonthInterest(principal, rate)
+        interest
       };
-      const getNext = calculateNextMonth(rate);
+      const getNext = getNextMonthSimple(rate);
       result = getNext(previous);
+      // console.log('result', result);
     });
 
     it('add number ', () => {

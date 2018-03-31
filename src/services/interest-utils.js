@@ -12,11 +12,17 @@ export const getMonthInterest = (principal, rate) => {
   return new Decimal(interest).div(12).toNumber();
 };
 
-export const calculateNextMonth = rate => previous => {
+export const calculateNextMonth = (rate, isCompound) => previous => {
+  // console.log('calculateNextMonth', previous);
   const number = previous.number + 1;
   const principal = previous.principal;
   const balance = previous.balance + previous.interest;
   const interest = getMonthInterest(principal, rate);
 
   return { number, principal, balance, interest };
+};
+
+export const getNextMonthSimple = rate => {
+  const simpleInterest = month => false; // never add compound
+  return calculateNextMonth(rate, simpleInterest);
 };
