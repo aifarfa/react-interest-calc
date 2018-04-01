@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { SimpleFormComponent } from "./modules/simple/SimpleForm";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -23,7 +24,7 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={() => <h1>Home</h1>} />
-            <Route path="/simple" render={() => <h1>Simple interest</h1>} />
+            <Route path="/simple" component={SimpleFormComponent} />
             <Route path="/compound" render={() => <h1>Compound interest</h1>} />
             <Route render={() => <h1>Page not found</h1>} />
           </Switch>
