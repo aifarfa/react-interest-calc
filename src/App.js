@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { SimpleFormComponent } from "./modules/simple/SimpleForm";
+import { CompoundFormComponent } from "./modules/compound/CompoundForm";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -25,7 +26,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={() => <h1>Home</h1>} />
             <Route path="/simple" component={SimpleFormComponent} />
-            <Route path="/compound" render={() => <h1>Compound interest</h1>} />
+            <Route path="/compound" component={CompoundFormComponent} />
             <Route render={() => <h1>Page not found</h1>} />
           </Switch>
         </BrowserRouter>
