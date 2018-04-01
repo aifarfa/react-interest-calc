@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar, Nav, NavItem } from "react-bootstrap";
+import { Navbar, Nav, NavItem, Grid, Row, Col } from "react-bootstrap";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { SimpleFormComponent } from "./modules/simple/SimpleForm";
 import { CompoundFormComponent } from "./modules/compound/CompoundForm";
@@ -23,12 +23,18 @@ class App extends Component {
         </Navbar>
 
         <BrowserRouter>
-          <Switch>
-            <Route exact path="/" component={() => <h1>Home</h1>} />
-            <Route path="/simple" component={SimpleFormComponent} />
-            <Route path="/compound" component={CompoundFormComponent} />
-            <Route render={() => <h1>Page not found</h1>} />
-          </Switch>
+          <Grid>
+            <Row>
+              <Col xs={12} md={8}>
+                <Switch>
+                  <Route exact path="/" component={() => <h1>Home</h1>} />
+                  <Route path="/simple" component={SimpleFormComponent} />
+                  <Route path="/compound" component={CompoundFormComponent} />
+                  <Route render={() => <h1>Page not found</h1>} />
+                </Switch>
+              </Col>
+            </Row>
+          </Grid>
         </BrowserRouter>
       </div>
     );
