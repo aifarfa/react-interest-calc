@@ -22,7 +22,7 @@ export const SimpleFormComponent = props => {
           type="text"
           value={props.principal}
           placeholder="Enter principal"
-          onChange={props.handleChange}
+          onChange={props.onPrincipalChange}
         />
         <FormControl.Feedback />
         <HelpBlock>required positive number</HelpBlock>
@@ -32,9 +32,9 @@ export const SimpleFormComponent = props => {
         <ControlLabel>Rate of Interest (%)</ControlLabel>
         <FormControl
           type="text"
-          value={props.interest}
+          value={props.rate}
           placeholder="Enter rate of interest"
-          onChange={props.handleChange}
+          onChange={props.onRateChange}
         />
         <FormControl.Feedback />
       </FormGroup>
@@ -45,14 +45,14 @@ export const SimpleFormComponent = props => {
           type="text"
           value={props.timePeriod}
           placeholder="Enter time period"
-          onChange={props.handleChange}
+          onChange={props.onTimePeriodChange}
         />
         <FormControl.Feedback />
       </FormGroup>
 
       <ButtonToolbar>
-        <Button bsStyle="primary">Calculate</Button>
-        <Button bsStyle="default">Reset</Button>
+        <Button bsStyle="primary" disabled={props.hasErrors} onClick={props.onSubmit}>Calculate</Button>
+        <Button bsStyle="default" onClick={props.onReset}>Reset</Button>
       </ButtonToolbar>
     </form>
   );
