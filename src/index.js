@@ -13,10 +13,7 @@ import configureStore from './store'
 import DevTools from './modules/devtools'
 
 // redux setup
-const initialState = Immutable.fromJS({
-  compound: {},
-  simple: {}
-});
+const initialState = Immutable.Map({});
 
 // const store = createStore(rootReducer, initialState);
 const store = configureStore(initialState)
