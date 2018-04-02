@@ -32,7 +32,7 @@ export const SimpleFormComponent = props => {
         <ControlLabel>Rate of Interest (%)</ControlLabel>
         <FormControl
           type="text"
-          value={props.interest}
+          value={props.rate}
           placeholder="Enter rate of interest"
           onChange={props.handleChange}
         />
