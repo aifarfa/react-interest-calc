@@ -16,7 +16,7 @@ describe('SimpleForm', () => {
 
   it('renders principal input', () => {
     const expected = 43210.0;
-    const form = shallow(<SimpleFormComponent principal={expected} onChange={() => { }} />);
+    const form = shallow(<SimpleFormComponent principal={expected} />);
     const input = form.find(FormControl).first()
     // console.log(input.html())
     expect(input.prop('value')).toEqual(expected)
@@ -24,7 +24,7 @@ describe('SimpleForm', () => {
 
   it('renders rate input', () => {
     const expected = 5.5;
-    const form = shallow(<SimpleFormComponent rate={expected} onChange={() => { }} />);
+    const form = shallow(<SimpleFormComponent rate={expected} />);
     const input = form.find(FormControl).at(1)
 
     expect(input.prop('value')).toEqual(expected)
@@ -32,10 +32,40 @@ describe('SimpleForm', () => {
 
   it('renders timePeriod input', () => {
     const expected = 12;
-    const form = shallow(<SimpleFormComponent timePeriod={expected} onChange={() => { }} />);
+    const form = shallow(<SimpleFormComponent timePeriod={expected} />);
     const input = form.find(FormControl).at(2)
 
     expect(input.prop('value')).toEqual(expected)
+  });
+
+  it('handle principal change', () => {
+    const action = sinon.spy();
+    const form = shallow(<SimpleFormComponent onPrincipalChange={action} />);
+    const input = form.find(FormControl).at(0)
+    const expected = { target: { value: 1000 } }
+
+    input.simulate('change', expected)
+    sinon.assert.calledWith(action, expected)
+  });
+
+  it('handle rate change', () => {
+    const action = sinon.spy();
+    const form = shallow(<SimpleFormComponent onRateChange={action} />);
+    const input = form.find(FormControl).at(1)
+    const expected = { target: { value: 1 } }
+
+    input.simulate('change', expected)
+    sinon.assert.calledWith(action, expected)
+  });
+
+  it('handle timePeriod change', () => {
+    const action = sinon.spy();
+    const form = shallow(<SimpleFormComponent onTimePeriodChange={action} />);
+    const input = form.find(FormControl).at(2)
+    const expected = { target: { value: 12 } }
+
+    input.simulate('change', expected)
+    sinon.assert.calledWith(action, expected)
   });
 
   it('disable button when hasErrors', () => {

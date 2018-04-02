@@ -22,7 +22,7 @@ export const SimpleFormComponent = props => {
           type="text"
           value={props.principal}
           placeholder="Enter principal"
-          onChange={props.handleChange}
+          onChange={props.onPrincipalChange}
         />
         <FormControl.Feedback />
         <HelpBlock>required positive number</HelpBlock>
@@ -34,7 +34,7 @@ export const SimpleFormComponent = props => {
           type="text"
           value={props.rate}
           placeholder="Enter rate of interest"
-          onChange={props.handleChange}
+          onChange={props.onRateChange}
         />
         <FormControl.Feedback />
       </FormGroup>
@@ -45,7 +45,7 @@ export const SimpleFormComponent = props => {
           type="text"
           value={props.timePeriod}
           placeholder="Enter time period"
-          onChange={props.handleChange}
+          onChange={props.onTimePeriodChange}
         />
         <FormControl.Feedback />
       </FormGroup>
