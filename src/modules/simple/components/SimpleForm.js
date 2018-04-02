@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ButtonToolbar,
   Button,
@@ -6,7 +6,7 @@ import {
   FormGroup,
   FormControl,
   HelpBlock
-} from "react-bootstrap";
+} from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -22,7 +22,7 @@ export const SimpleFormComponent = props => {
       <FormGroup controlId="principalText" validationState={props.isValid}>
         <ControlLabel>Principal</ControlLabel>
         <FormControl
-          type="text"
+          type="number"
           value={props.principal}
           placeholder="Enter principal"
           onChange={props.onPrincipalChange}
@@ -34,7 +34,7 @@ export const SimpleFormComponent = props => {
       <FormGroup controlId="rateText" validationState={props.isValid}>
         <ControlLabel>Rate of Interest (%)</ControlLabel>
         <FormControl
-          type="text"
+          type="number"
           value={props.rate}
           placeholder="Enter rate of interest"
           onChange={props.onRateChange}
@@ -45,7 +45,7 @@ export const SimpleFormComponent = props => {
       <FormGroup controlId="timeText" validationState={props.isValid}>
         <ControlLabel>Time period (month)</ControlLabel>
         <FormControl
-          type="text"
+          type="number"
           value={props.timePeriod}
           placeholder="Enter time period"
           onChange={props.onTimePeriodChange}
@@ -54,31 +54,38 @@ export const SimpleFormComponent = props => {
       </FormGroup>
 
       <ButtonToolbar>
-        <Button bsStyle="primary" disabled={props.hasErrors} onClick={props.onSubmit}>Calculate</Button>
-        <Button bsStyle="default" onClick={props.onReset}>Reset</Button>
+        <Button
+          bsStyle="primary"
+          disabled={props.hasErrors}
+          onClick={props.onSubmit}>
+          Calculate
+        </Button>
+        <Button bsStyle="default" onClick={props.onReset}>
+          Reset
+        </Button>
       </ButtonToolbar>
     </form>
   );
 };
 
 const mapState = state => {
-  const parent = state.get('simple')
+  const parent = state.get('simple');
 
   return {
     hasErrors: parent.get('hasErrors'),
     principal: parent.get('principal'),
     rate: parent.get('rate'),
-    timePeriod: parent.get('timePeriod'),
-  }
-}
+    timePeriod: parent.get('timePeriod')
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
     onPrincipalChange: e => dispatch(actions.setPrincipal(e.target.value)),
     onRateChange: e => dispatch(actions.setRate(e.target.value)),
     onTimePeriodChange: e => dispatch(actions.setTimePeriod(e.target.value)),
-    onReset: e => dispatch(actions.reset()),
-  }
-}
+    onReset: e => dispatch(actions.reset())
+  };
+};
 
 export default connect(mapState, mapDispatch)(SimpleFormComponent);

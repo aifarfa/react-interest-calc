@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ButtonToolbar,
   Button,
@@ -6,7 +6,7 @@ import {
   FormGroup,
   FormControl,
   HelpBlock
-} from "react-bootstrap";
+} from 'react-bootstrap';
 
 // test
 const onFrequencyChange = e => {
@@ -24,7 +24,7 @@ export const CompoundFormComponent = props => {
       <FormGroup controlId="principalText" validationState={props.isValid}>
         <ControlLabel>Principal</ControlLabel>
         <FormControl
-          type="text"
+          type="number"
           value={props.principal}
           placeholder="Enter principal"
           onChange={props.handleChange}
@@ -36,7 +36,7 @@ export const CompoundFormComponent = props => {
       <FormGroup controlId="rateText" validationState={props.isValid}>
         <ControlLabel>Rate of Interest (%)</ControlLabel>
         <FormControl
-          type="text"
+          type="number"
           value={props.interest}
           placeholder="Enter rate of interest"
           onChange={props.handleChange}
@@ -47,7 +47,7 @@ export const CompoundFormComponent = props => {
       <FormGroup controlId="timeText" validationState={props.isValid}>
         <ControlLabel>Time period (month)</ControlLabel>
         <FormControl
-          type="text"
+          type="number"
           value={props.timePeriod}
           placeholder="Enter time period"
           onChange={props.handleChange}
@@ -60,8 +60,7 @@ export const CompoundFormComponent = props => {
         <FormControl
           componentClass="select"
           value={props.frequency}
-          onChange={onFrequencyChange}
-        >
+          onChange={onFrequencyChange}>
           <option value="12">Yearly</option>
           <option value="6">Half Yearly</option>
           <option value="1">Monthly</option>
