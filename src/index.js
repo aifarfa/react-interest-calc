@@ -8,8 +8,9 @@ import registerServiceWorker from './registerServiceWorker';
 
 import * as Immutable from 'immutable';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { reducer as rootReducer } from './modules'; // index
+import configureStore from './store'
+
+import DevTools from './modules/devtools'
 
 // redux setup
 const initialState = Immutable.fromJS({
@@ -17,11 +18,14 @@ const initialState = Immutable.fromJS({
   simple: {}
 });
 
-const store = createStore(rootReducer, initialState);
-
+// const store = createStore(rootReducer, initialState);
+const store = configureStore(initialState)
 const app = (
   <Provider store={store}>
-    <App />
+    <div>
+      <App />
+      <DevTools />
+    </div>
   </Provider>
 );
 
