@@ -51,8 +51,8 @@ export const SimpleFormComponent = props => {
       </FormGroup>
 
       <ButtonToolbar>
-        <Button bsStyle="primary" disabled={props.hasErrors}>Calculate</Button>
-        <Button bsStyle="default">Reset</Button>
+        <Button bsStyle="primary" disabled={props.hasErrors} onClick={props.onSubmit}>Calculate</Button>
+        <Button bsStyle="default" onClick={props.onReset}>Reset</Button>
       </ButtonToolbar>
     </form>
   );
