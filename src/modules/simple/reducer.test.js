@@ -1,6 +1,7 @@
-import reducer from './reducer';
-import * as actions from './actions';
 import { fromJS } from 'immutable';
+import simple from './index'; // this module
+
+const { actions, reducer } = simple;
 
 describe('simple/reducer - actions', () => {
   let state;
