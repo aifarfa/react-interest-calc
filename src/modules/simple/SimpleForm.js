@@ -51,7 +51,7 @@ export const SimpleFormComponent = props => {
       </FormGroup>
 
       <ButtonToolbar>
-        <Button bsStyle="primary">Calculate</Button>
+        <Button bsStyle="primary" disabled={props.hasErrors}>Calculate</Button>
         <Button bsStyle="default">Reset</Button>
       </ButtonToolbar>
     </form>

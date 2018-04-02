@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import { SimpleFormComponent } from './SimpleForm';
-import { FormControl } from 'react-bootstrap';
+import { Button, FormControl } from 'react-bootstrap';
 
 describe('SimpleForm', () => {
 
@@ -16,7 +16,7 @@ describe('SimpleForm', () => {
   it('renders principal input', () => {
     const expected = 43210.0;
     const form = shallow(<SimpleFormComponent principal={expected} onChange={() => {}} />);
-    const input = form.find(FormControl).first();
+    const input = form.find(FormControl).first()
     // console.log(input.html())
     expect(input.prop('value')).toEqual(expected)
   });
@@ -35,5 +35,19 @@ describe('SimpleForm', () => {
     const input = form.find(FormControl).at(2)
     
     expect(input.prop('value')).toEqual(expected)
+  });
+
+  it('disable button when hasErrors', () => {
+    const form = shallow(<SimpleFormComponent hasErrors />);
+    const button = form.find(Button).first()
+    
+    expect(button.prop('disabled')).toBe(true)
+  });
+
+  it('enable button when no error', () => {
+    const form = shallow(<SimpleFormComponent />);
+    const button = form.find(Button).first()
+    
+    expect(button.prop('disabled')).toBe(false)
   });
 })
