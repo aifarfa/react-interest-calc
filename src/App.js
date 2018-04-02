@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Navbar, Nav, NavItem, Grid, Row, Col } from "react-bootstrap";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { SimpleFormComponent } from "./modules/simple/SimpleForm";
+import { SimpleFormComponent } from "./modules/simple/components/SimpleForm";
 import { CompoundFormComponent } from "./modules/compound/CompoundForm";
 import logo from "./logo.svg";
 import "./App.css";
