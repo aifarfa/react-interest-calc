@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Navbar, Nav, NavItem, Grid, Row, Col } from "react-bootstrap";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { SimpleFormComponent } from "./modules/simple/SimpleForm";
+import { CompoundFormComponent } from "./modules/compound/CompoundForm";
+import logo from "./logo.svg";
+import "./App.css";
 
 class App extends Component {
   render() {
@@ -8,11 +12,30 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Task 1. interest calculator</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+        <Navbar>
+          <Nav bsStyle="pills" stacked activeKey={1}>
+            <NavItem href="/simple">Simple Interest</NavItem>
+            <NavItem href="/compound">Compound Interest</NavItem>
+          </Nav>
+        </Navbar>
+
+        <BrowserRouter>
+          <Grid>
+            <Row>
+              <Col xs={12} md={8}>
+                <Switch>
+                  <Route exact path="/" component={() => <h1>Home</h1>} />
+                  <Route path="/simple" component={SimpleFormComponent} />
+                  <Route path="/compound" component={CompoundFormComponent} />
+                  <Route render={() => <h1>Page not found</h1>} />
+                </Switch>
+              </Col>
+            </Row>
+          </Grid>
+        </BrowserRouter>
       </div>
     );
   }
