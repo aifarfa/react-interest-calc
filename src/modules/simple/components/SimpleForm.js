@@ -8,6 +8,9 @@ import {
   HelpBlock
 } from "react-bootstrap";
 
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+
 /**
  * [SimpleFormComponent Pure function that render props]
  * @type {React.PureComponent}
@@ -57,3 +60,25 @@ export const SimpleFormComponent = props => {
     </form>
   );
 };
+
+const mapState = state => {
+  const parent = state.get('simple')
+
+  return {
+    hasErrors: parent.get('hasErrors'),
+    principal: parent.get('principal'),
+    rate: parent.get('rate'),
+    timePeriod: parent.get('timePeriod'),
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    onPrincipalChange: e => dispatch(actions.setPrincipal(e.target.value)),
+    onRateChange: e => dispatch(actions.setRate(e.target.value)),
+    onTimePeriodChange: e => dispatch(actions.setTimePeriod(e.target.value)),
+    onReset: e => dispatch(actions.reset()),
+  }
+}
+
+export default connect(mapState, mapDispatch)(SimpleFormComponent);
