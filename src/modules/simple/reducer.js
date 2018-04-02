@@ -20,19 +20,28 @@ export default (state = initialState, action) => {
     case t.SET_RATE:
       return setRate(state, action.payload)
 
+    case t.SET_TIME_PERIOD:
+      return setTimePeriod(state, action.payload)
+
     default: return state
   }
 }
 
 function setPrincipal(state, payload) {
-  const setState = stateNumberSetter(state, n => isPositive(n))
+  const setState = stateNumberSetter(state, isPositive)
   const nextState = setState('principal', payload.value)
   return nextState
 }
 
 function setRate(state, payload) {
-  const setState = stateNumberSetter(state, n => isPercentage(n))
+  const setState = stateNumberSetter(state, isPercentage)
   const nextState = setState('rate', payload.value)
+  return nextState
+}
+
+function setTimePeriod(state, payload) {
+  const setState = stateNumberSetter(state, isPositiveInt)
+  const nextState = setState('timePeriod', payload.value)
   return nextState
 }
 
@@ -48,6 +57,7 @@ const stateNumberSetter = (state, validate) => (key, value) => {
   const number = parseFloat(value)
   // validate
   if (!number || !validate(number)) {
+    // console.log('invalid number', number)
     return state
       .set(key, value)
       .set('hasErrors', true)
@@ -62,4 +72,9 @@ function isPositive(value) {
 
 function isPercentage(value) {
   return value >= 0 && value <= 100
+}
+
+function isPositiveInt(value) {
+  const num = new Decimal(value)
+  return num.isPositive() && num.isInteger()
 }

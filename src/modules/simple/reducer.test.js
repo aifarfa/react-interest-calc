@@ -30,6 +30,7 @@ describe('simple/reducer - actions', () => {
     const next = reducer(state, action).toJS()
 
     expect(next.principal).toEqual(777);
+    expect(next.hasErrors).toBe(false);
   })
 
   it('setPrincipal: NaN', () => {
@@ -51,6 +52,7 @@ describe('simple/reducer - actions', () => {
     const next = reducer(state, action).toJS()
 
     expect(next.rate).toEqual(15.5);
+    expect(next.hasErrors).toBe(false);
   })
 
   it('setRate: NaN', () => {
@@ -60,8 +62,37 @@ describe('simple/reducer - actions', () => {
     expect(next.hasErrors).toBe(true);
   })
 
+  it('setRate: n > 100', () => {
+    const action = actions.setRate(100.01)
+    const next = reducer(state, action).toJS()
+
+    expect(next.hasErrors).toBe(true);
+  })
+
+
   it('setRate: negative', () => {
     const action = actions.setPrincipal('-1')
+    const next = reducer(state, action).toJS()
+
+    expect(next.hasErrors).toBe(true);
+  })
+
+  it('setTimePeriod: valid', () => {
+    const action = actions.setTimePeriod(18)
+    const next = reducer(state, action).toJS()
+
+    expect(next.hasErrors).toBe(false);
+  })
+
+  it('setTimePeriod: is float', () => {
+    const action = actions.setTimePeriod(5.5)
+    const next = reducer(state, action).toJS()
+
+    expect(next.hasErrors).toBe(true);
+  })
+
+  it('setTimePeriod: negative', () => {
+    const action = actions.setTimePeriod(-2)
     const next = reducer(state, action).toJS()
 
     expect(next.hasErrors).toBe(true);
