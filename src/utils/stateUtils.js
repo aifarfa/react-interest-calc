@@ -10,7 +10,8 @@ import { List } from 'immutable';
 export const stateNumberSetter = (state, validate) => (key, value) => {
   const number = parseFloat(value);
   const error = !number || !validate(number);
-  const next = state.set(key, number).setIn(['errors', key], error);
+  const actual = error ? value : number;
+  const next = state.set(key, actual).setIn(['errors', key], error);
   return next.set('hasErrors', hasErrors(next));
 };
 
