@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux-immutable';
 import simple from '../modules/simple';
+import compound from '../modules/compound';
 
 export default combineReducers({
-  compound: (state = {}, action) => state, // TODO: implement module
-  simple: simple.reducer,
-})
+  compound: compound.reducer,
+  simple: simple.reducer
+});
