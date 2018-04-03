@@ -10,7 +10,8 @@ const mapState = state => {
     principal: parent.get('principal'),
     rate: parent.get('rate'),
     timePeriod: parent.get('timePeriod'),
-    result: parent.get('result')
+    result: parent.get('result'),
+    errors: parent.get('errors').toJS()
   };
 };
 
