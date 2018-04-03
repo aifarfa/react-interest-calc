@@ -11,9 +11,6 @@ describe('simple/reducer - actions', () => {
   });
 
   it('has default state', () => {
-    const action = { type: 'ANY' };
-    const state = reducer(undefined, action).toJS();
-
     expect(state).toBeDefined();
   });
 
@@ -114,5 +111,12 @@ describe('simple/reducer - actions', () => {
 
     expect(next.errors.timePeriod).toBeTruthy();
     expect(next.hasErrors).toBeTruthy();
+  });
+
+  it('submit and update result', () => {
+    const action = actions.submit(); // with default state
+    const next = reducer(state, action).toJS();
+    
+    expect(next.result).toBeDefined();
   });
 });

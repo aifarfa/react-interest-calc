@@ -18,3 +18,7 @@ export const setTimePeriod = (value) => ({
   type: t.SET_TIME_PERIOD,
   payload: { value }
 })
+
+export const submit = () => ({
+  type: t.SUBMIT,
+})
