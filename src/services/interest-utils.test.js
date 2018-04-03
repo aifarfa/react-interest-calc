@@ -1,9 +1,10 @@
 import {
   getAnnaulInterest,
   getNextSimple,
+  getCompoundInterestTimeline,
   getSimpleInterestTimeline,
   getPaidInterest,
-  round
+  round,
 } from './interest-utils';
 
 describe('interest utils', () => {
@@ -189,5 +190,62 @@ describe('interest utils', () => {
         expect(round(balance)).toEqual('1040.00');
       });
     });
+  }); // end simple
+
+  describe('compound saving timeline', () => {
+
+    describe('monthly', () => {
+      let actual;
+
+      beforeEach(() => {
+        const getTimeline = getCompoundInterestTimeline(12, 1); // monthly
+        const principal = 1200;
+        const rate = 6;
+        actual = getTimeline(principal, rate);
+      });
+
+      it('add up principal', () => {
+        expect(actual[0].principal).toEqual(1200);
+        expect(actual[1].principal).toEqual(1206);
+      })
+
+      it('increasing interest', () => {
+        expect(actual[0].interest).toEqual(6.00);
+        expect(actual[1].interest).toEqual(6.03);
+      })
+
+      it('sum up balance', () => {
+        const balance = round(actual[11].balance);
+        expect(balance).toEqual('1274.01');
+      });
+    }); // monthly 
+
+    describe('half yearly', () => {
+      let actual;
+
+      beforeEach(() => {
+        const getTimeline = getCompoundInterestTimeline(12, 6);
+        const principal = 1200;
+        const rate = 6;
+        actual = getTimeline(principal, rate);
+      });
+
+      it('add up principal', () => {
+        expect(actual[0].principal).toEqual(1200);
+        expect(actual[5].principal).toEqual(1200);
+        expect(actual[6].principal).toEqual(1236);
+        expect(actual[7].principal).toEqual(1236);
+      });
+
+      it('increasing interest', () => {
+        expect(actual[0].interest).toEqual(0);
+        expect(actual[5].interest).toEqual(36);
+        expect(actual[6].interest).toEqual(0);
+      });
+
+      it('sum up balance', () => {
+        expect(actual[11].balance).toEqual(1273.08);
+      });
+    }); // half yearly 
   });
 });
