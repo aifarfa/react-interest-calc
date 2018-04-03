@@ -58,7 +58,8 @@ describe('interest utils', () => {
         number: 1,
         principal: principal,
         balance: principal,
-        interest: interest
+        interest: interest,
+        sumInterest: 0
       };
       const getNext = getNextSimple(rate, 1);
       result = getNext(previous);
@@ -79,6 +80,10 @@ describe('interest utils', () => {
     it('add interest', () => {
       expect(result.interest).toEqual(3.3);
     });
+
+    it('sum of interest', () => {
+      expect(result.sumInterest).toEqual(3.3);
+    });
   });
 
   describe('calculateNext - simple quaterly', () => {
@@ -88,7 +93,8 @@ describe('interest utils', () => {
       number: 1,
       principal: principal,
       balance: principal,
-      interest: 0
+      interest: 0,
+      sumInterest: 0
     };
 
     let result;
@@ -100,7 +106,8 @@ describe('interest utils', () => {
         number: 2,
         principal: 1200,
         balance: 1200,
-        interest: 0
+        interest: 0,
+        sumInterest: 0
       };
       expect(second).toEqual(expected);
     });
@@ -113,14 +120,15 @@ describe('interest utils', () => {
         number: 3,
         principal: 1200,
         balance: 1209.9,
-        interest: 9.9
+        interest: 9.9,
+        sumInterest: 9.9
       };
       expect(third).toEqual(expected);
     });
   });
 
   describe('simple saving timeline', () => {
-    describe('getTimeline monthly', () => {
+    describe('monthly', () => {
       const getTimeline = getSimpleInterestTimeline(15, 1); // monthly
       const principal = 1000;
       const rate = 4;
@@ -156,7 +164,7 @@ describe('interest utils', () => {
       });
     });
 
-    describe('getTimeline quaterly', () => {
+    describe('quaterly', () => {
       const getTimeline = getSimpleInterestTimeline(12, 3);
       const principal = 1000;
       const rate = 4;
@@ -215,9 +223,14 @@ describe('interest utils', () => {
         const balance = round(actual[11].balance);
         expect(balance).toEqual('1274.01');
       });
+
+      it('sum of interest', () => {
+        const sum = actual[11].sumInterest;
+        expect(round(sum)).toEqual('74.01');
+      });
     }); // monthly
 
-    describe('half yearly', () => {
+    describe('semi-annually', () => {
       let actual;
 
       beforeEach(() => {
@@ -242,6 +255,11 @@ describe('interest utils', () => {
 
       it('sum up balance', () => {
         expect(actual[11].balance).toEqual(1273.08);
+      });
+
+      it('sum of interest', () => {
+        const sum = actual[11].sumInterest;
+        expect(round(sum)).toEqual('73.08');
       });
     }); // half yearly
   });

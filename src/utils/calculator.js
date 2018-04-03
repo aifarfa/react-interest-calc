@@ -1,6 +1,6 @@
 import { Decimal } from 'decimal.js-light';
 
-export const add = (a, b) => {
+export const add = (a = 0, b = 0) => {
   return new Decimal(a).add(b).toNumber();
 };
 
@@ -20,8 +20,9 @@ export const calculateNextMonth = (rate, frequency, isCompound = false) => previ
   const interestIsPaid = (number % frequency === 0);
   const interest = interestIsPaid ? getPaidInterest(principal, rate, frequency).toNumber() : 0;
   const balance = add(previous.balance, interest);
+  const sumInterest = add(interest, previous.sumInterest);
 
-  return { number, principal, balance, interest };
+  return { number, principal, balance, interest, sumInterest };
 };
 
 export const round = number => number.toFixed(2);
@@ -40,6 +41,7 @@ export const calculateTimeline = (month, frequency, getNext) => (principal, rate
     number: 0,
     principal,
     interest: 0,
+    sumInterest: 0,
     balance: principal
   };
   const firstMonth = next(initialValue, frequency);
