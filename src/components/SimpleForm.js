@@ -4,8 +4,7 @@ import {
   Button,
   ControlLabel,
   FormGroup,
-  FormControl,
-  HelpBlock
+  FormControl
 } from 'react-bootstrap';
 
 const getValidState = e => (e ? 'error' : null);
@@ -24,9 +23,7 @@ export default props => {
   return (
     // principal, rate of interest, time period, compound frequency(yearly, half yearly etc.)
     <form className="spacing">
-      <FormGroup
-        controlId="principalText"
-        validationState={validation.principal}>
+      <FormGroup validationState={validation.principal}>
         <ControlLabel>Principal</ControlLabel>
         <FormControl
           type="number"
@@ -35,7 +32,6 @@ export default props => {
           onChange={props.onPrincipalChange}
         />
         <FormControl.Feedback />
-        <HelpBlock>required positive number</HelpBlock>
       </FormGroup>
 
       <FormGroup validationState={validation.rate}>
@@ -46,6 +42,7 @@ export default props => {
           placeholder="Enter rate of interest"
           onChange={props.onRateChange}
         />
+        <FormControl.Feedback />
       </FormGroup>
 
       <FormGroup validationState={validation.timePeriod}>
