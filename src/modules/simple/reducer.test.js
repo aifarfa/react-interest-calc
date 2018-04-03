@@ -125,7 +125,7 @@ describe('simple/reducer - actions', () => {
   it('setFrequency valid', () => {
     const action = actions.setFrequency('12');
     const next = reducer(state, action).toJS();
-    
+
     expect(next.frequency).toEqual(12);
     expect(next.errors.frequency).toBeFalsy();
   })
@@ -133,7 +133,7 @@ describe('simple/reducer - actions', () => {
   it('setFrequency: undefined', () => {
     const action = actions.setFrequency(undefined);
     const next = reducer(state, action).toJS();
-    
+
     expect(next.errors.frequency).toBeTruthy();
     expect(next.hasErrors).toBeTruthy();
   })
@@ -171,14 +171,30 @@ describe('simple/reducer - actions', () => {
       const previous = state
         .set('timePeriod', 12)
         .set('principal', 1000)
-        .set('rate', 4);
+        .set('rate', 4)
+        .set('frequency', 1);
 
       const next = reducer(previous, action); // immutable Map
-      const result = next.get('result');
-      const third = result.get(2); // 3rd month
-      const last = result.last(); // 12th month
-      expect(third.balance).toEqual(1010);
-      expect(last.balance).toEqual(1040);
+      const result = next.get('result').toArray();
+
+      expect(result[2].balance).toEqual(1010);
+      expect(result[5].balance).toEqual(1020);
+      expect(result[11].balance).toEqual(1040);
+    });
+
+    it('calculate quaterly', () => {
+      const previous = state
+        .set('timePeriod', 12)
+        .set('principal', 1000)
+        .set('rate', 4)
+        .set('frequency', 3);
+
+      const next = reducer(previous, action); // immutable Map
+      const result = next.get('result').toArray();
+
+      expect(result[0].balance).toEqual(1000);
+      expect(result[1].balance).toEqual(1000);
+      expect(result[2].balance).toEqual(1010); // interest paid on 3rd month
     });
 
     it('do nothing when errors exists', () => {
