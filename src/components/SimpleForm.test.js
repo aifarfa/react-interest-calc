@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import SimpleFormComponent from './SimpleForm';
-import { Button, FormControl } from 'react-bootstrap';
+import { Button, FormControl, FormGroup } from 'react-bootstrap';
 
 describe('SimpleForm', () => {
   it('renders without crashing', () => {
@@ -41,6 +41,30 @@ describe('SimpleForm', () => {
     const input = form.find(FormControl).at(3);
 
     expect(input.prop('value')).toEqual(expected);
+  });
+
+  it('renders errors.principal', () => {
+    const errors = { principal: true };
+    const form = shallow(<SimpleFormComponent principal="" errors={errors} />);
+    const input = form.find(FormGroup).at(0);
+
+    expect(input.prop('validationState')).toEqual('error');
+  });
+
+  it('renders errors.rate', () => {
+    const errors = { rate: true };
+    const form = shallow(<SimpleFormComponent rate="" errors={errors} />);
+    const input = form.find(FormGroup).at(1);
+
+    expect(input.prop('validationState')).toEqual('error');
+  });
+
+  it('renders errors.timePeriod', () => {
+    const errors = { timePeriod: true };
+    const form = shallow(<SimpleFormComponent timePeriod="" errors={errors} />);
+    const input = form.find(FormGroup).at(2);
+
+    expect(input.prop('validationState')).toEqual('error');
   });
 
   it('handle principal change', () => {

@@ -8,14 +8,25 @@ import {
   HelpBlock
 } from 'react-bootstrap';
 
+const getValidState = e => (e ? 'error' : null);
+
 /**
  * Reusable saving calculator form component
  */
 export default props => {
+  const errors = props.errors || {};
+  const validation = {
+    principal: getValidState(errors.principal),
+    rate: getValidState(errors.rate),
+    timePeriod: getValidState(errors.timePeriod)
+  };
+
   return (
     // principal, rate of interest, time period, compound frequency(yearly, half yearly etc.)
     <form className="spacing">
-      <FormGroup controlId="principalText" validationState={props.isValid}>
+      <FormGroup
+        controlId="principalText"
+        validationState={validation.principal}>
         <ControlLabel>Principal</ControlLabel>
         <FormControl
           type="number"
@@ -27,7 +38,7 @@ export default props => {
         <HelpBlock>required positive number</HelpBlock>
       </FormGroup>
 
-      <FormGroup controlId="rateText" validationState={props.isValid}>
+      <FormGroup validationState={validation.rate}>
         <ControlLabel>Rate of Interest (%)</ControlLabel>
         <FormControl
           type="number"
@@ -35,10 +46,9 @@ export default props => {
           placeholder="Enter rate of interest"
           onChange={props.onRateChange}
         />
-        <FormControl.Feedback />
       </FormGroup>
 
-      <FormGroup controlId="timeText" validationState={props.isValid}>
+      <FormGroup validationState={validation.timePeriod}>
         <ControlLabel>Time period (month)</ControlLabel>
         <FormControl
           type="number"
