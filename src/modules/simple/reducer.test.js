@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import simple from './index'; // this module
 
 const { actions, reducer } = simple;
@@ -113,10 +113,46 @@ describe('simple/reducer - actions', () => {
     expect(next.hasErrors).toBeTruthy();
   });
 
-  it('submit and update result', () => {
+  describe('submit calculation', () => {
     const action = actions.submit(); // with default state
-    const next = reducer(state, action).toJS();
-    
-    expect(next.result).toBeDefined();
+
+    it('update result', () => {
+      const next = reducer(state, action).toJS();
+      expect(next.result).not.toEqual(state.get('result'));
+    });
+
+    it('length equals timePeriod - short', () => {
+      const previous = state.set('timePeriod', 6);
+      const next = reducer(previous, action).toJS();
+      expect(next.result).toHaveLength(6);
+    });
+
+    it('length equals timePeriod - long', () => {
+      const previous = state.set('timePeriod', 48);
+      const next = reducer(previous, action).toJS();
+      expect(next.result).toHaveLength(48);
+    });
+
+    xit('calculated actual balance', () => {
+      const previous = state
+        .set('timePeriod', 3)
+        .set('principal', 10000)
+        .set('rate', 4);
+
+      const next = reducer(previous, action); // immutable Map
+      const result = next.get('result');
+      const last = result.last();
+      // console.log(result.toArray());
+      expect(last.balance).toEqual(10100);
+    });
+
+    it('do nothing when errors exists', () => {
+      const previous = state.set('hasErrors', true);
+      const next = reducer(previous, action); // immutable Map
+      // compare Immutable List
+      const expected = previous.get('result');
+      const actual = next.get('result');
+      expect(actual).toEqual(expected);
+    });
   });
 });

@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import * as t from './actionTypes';
 import Decimal from 'decimal.js-light';
+import { getSimpleInterestTimeline } from '../../services/interest-utils';
 
 const initialState = Immutable.fromJS({
   principal: 1200,
@@ -25,6 +26,9 @@ export default (state = initialState, action) => {
     case t.SET_TIME_PERIOD:
       return setTimePeriod(state, action.payload);
 
+    case t.SUBMIT:
+      return updateResult(state, action.payload);
+
     default:
       return state;
   }
@@ -46,6 +50,19 @@ function setTimePeriod(state, payload) {
   const setState = stateNumberSetter(state, isPositiveInt);
   const nextState = setState('timePeriod', payload.value);
   return nextState;
+}
+
+function updateResult(state, payload) {
+  if (state.get('hasErrors')) {
+    return state;
+  }
+  const month = state.get('timePeriod');
+  const principal = state.get('principal');
+  const rate = state.get('rate');
+  const getTimeline = getSimpleInterestTimeline(month);
+  const result = getTimeline(principal, rate);
+
+  return state.set('result', Immutable.List(result));
 }
 
 /**
