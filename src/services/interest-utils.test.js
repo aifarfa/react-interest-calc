@@ -1,61 +1,66 @@
 import {
-  getYearInterest,
-  getMonthInterest,
+  getAnnaulInterest,
   getNextMonthSimple,
-  getSimpleInterestTimeline
+  getSimpleInterestTimeline,
+  getPaidInterest,
+  round
 } from './interest-utils';
 
 describe('interest utils', () => {
-  describe('getYearInterest', () => {
+  describe('getAnnualInterest', () => {
     it('get year interest rate 4', () => {
-      const interest = getYearInterest(1000, 4);
+      const interest = getAnnaulInterest(1000, 4).toNumber();
       expect(interest).toEqual(40);
     });
 
-    it('get year interest rate 3.3', () => {
-      const interest = getYearInterest(1200, 3.3);
+    it('get annual interest rate 3.3', () => {
+      const interest = getAnnaulInterest(1200, 3.3).toNumber();
       expect(interest).toEqual(39.6);
     });
 
-    it('get year interest rate 2.5', () => {
-      const interest = getYearInterest(1200, 2.5);
+    it('get annual interest rate 2.5', () => {
+      const interest = getAnnaulInterest(1200, 2.5).toNumber();
       expect(interest).toEqual(30);
     });
   });
 
-  describe('getMonthInterest', () => {
-    it('get monthly round at precision 20', () => {
-      const interest = getMonthInterest(1000, 4);
+  describe('getPaidInterest', () => {
+    it('paid monthly', () => {
+      const interest = getPaidInterest(1000, 4, 1).toNumber();
       expect(interest).toEqual(3.3333333333333335);
     });
 
-    it('get monthly interest rate 3.3', () => {
-      const monthly = getMonthInterest(1200, 3.3);
-      expect(monthly).toEqual(3.3);
+    it('paid quaterly', () => {
+      const interest = getPaidInterest(1000, 4, 3).toNumber();
+      expect(interest).toEqual(10);
     });
 
-    it('get monthly interest rate 2.5', () => {
-      const monthly = getMonthInterest(1200, 2.5);
-      expect(monthly).toEqual(2.5);
+    it('get half-yearly', () => {
+      const interest = getPaidInterest(1200, 2.5, 6).toNumber();
+      expect(interest).toEqual(15);
+    });
+
+    it('get annually', () => {
+      const interest = getPaidInterest(1200, 2.5, 12).toNumber();
+      expect(interest).toEqual(30);
     });
   });
 
-  describe('getNextMonth - simple', () => {
+  describe('getNextMonth - simple monthly', () => {
     const principal = 1200;
     const rate = 3.3;
-    const interest = getMonthInterest(principal, rate);
-    const previous = {
-      number: 1,
-      principal: principal,
-      balance: principal,
-      interest: interest
-    };
     let result;
 
     beforeEach(() => {
-      const getNext = getNextMonthSimple(rate);
+      const interest = getPaidInterest(principal, rate, 1);
+      const previous = {
+        number: 1,
+        principal: principal,
+        balance: principal,
+        interest: interest
+      };
+      const getNext = getNextMonthSimple(rate, 1);
       result = getNext(previous);
-      // console.log('result', result);
     });
 
     it('add number ', () => {
@@ -75,11 +80,50 @@ describe('interest utils', () => {
     });
   });
 
-  describe('getSimpleInterestTimeline', () => {
-    const principal = 1000;
-    const getTimeline = getSimpleInterestTimeline(15); // months
+  describe('getNextMonth - paid quaterly', () => {
+    const principal = 1200;
+    const rate = 3.3;
+    const firstMonth = {
+      number: 1,
+      principal: principal,
+      balance: principal,
+      interest: 0
+    };
 
-    describe('getTimeline round precision', () => {
+    let result;
+
+    it('do not add interest until paid time', () => {
+      const getNext = getNextMonthSimple(rate, 3);
+      const second = getNext(firstMonth);
+      const expected = {
+        number: 2,
+        principal: 1200,
+        balance: 1200,
+        interest: 0
+      };
+      expect(second).toEqual(expected);
+    });
+
+    it('add interest on third month', () => {
+      const getNext = getNextMonthSimple(rate, 3);
+      const second = getNext(firstMonth);
+      const third = getNext(second);
+      const expected = {
+        number: 3,
+        principal: 1200,
+        balance: 1209.9,
+        interest: 9.9
+      };
+      expect(third).toEqual(expected);
+    });
+  });
+
+
+  describe('getSimpleInterestTimeline', () => {
+
+    describe('getTimeline monthly', () => {
+      const getTimeline = getSimpleInterestTimeline(15, 1); // monthly
+      const principal = 1000;
       const rate = 4;
       let actual;
 
@@ -88,22 +132,35 @@ describe('interest utils', () => {
       });
 
       it('reduce range', () => {
-        expect(actual.length).toEqual(15);
+        expect(actual).toHaveLength(15);
       });
 
-      it('round precision (40 / 12 * 12)', () => {
-        // (40 / 12) * 12
-        expect(actual[12]['balance']).toEqual(1040);
+      it('round precision (40 * 1 / 12)', () => {
+        // apply format
+        const balance = actual[0].balance;
+        const interest = actual[0].interest;
+
+        expect(round(balance)).toEqual('1003.33');
+        expect(round(interest)).toEqual('3.33');
+      });
+
+      it('annual equivalent rate', () => {
+        const balance = actual[11].balance;
+        expect(balance).toEqual(1040);
+        expect(round(balance)).toEqual('1040.00');
       });
 
       it('sum up balance', () => {
-        // (40 / 12) * 12
-        expect(actual[14]['balance']).toEqual(1046.6666666666667);
+        const balance = actual[14].balance;
+        expect(balance).toEqual(1050);
+        expect(round(balance)).toEqual('1050.00');
       });
     });
 
-    describe('different rate', () => {
-      const rate = 4.2;
+    describe('getTimeline quaterly', () => {
+      const getTimeline = getSimpleInterestTimeline(12, 3);
+      const principal = 1000;
+      const rate = 4;
       let actual;
 
       beforeEach(() => {
@@ -111,11 +168,25 @@ describe('interest utils', () => {
       });
 
       it('reduce range', () => {
-        expect(actual.length).toEqual(15);
+        expect(actual).toHaveLength(12);
       });
 
-      it('sum up balance', () => {
-        expect(actual[14]['balance']).toEqual(1049);
+      it('add no interest on first month', () => {
+        expect(actual[0]['balance']).toEqual(1000);
+      });
+
+      it('add no interest on second month', () => {
+        expect(actual[1]['balance']).toEqual(1000);
+      });
+
+      it('add interest on thrid month', () => {
+        expect(actual[2]['balance']).toEqual(1010);
+      });
+
+      it('annual equivalent rate', () => {
+        const balance = actual[11].balance;
+        expect(balance).toEqual(1040);
+        expect(round(balance)).toEqual('1040.00');
       });
     });
   });
