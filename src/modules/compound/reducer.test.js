@@ -147,7 +147,51 @@ describe('compound/reducer', () => {
     expect(next.hasErrors).toBeTruthy();
   });
 
-  xdescribe('submit calculation', () => {
-    // const action = actions.submit(); // with default state
+  describe('submit calculation', () => {
+    const action = actions.submit(); // with default state
+
+    it('calculated compound balance', () => {
+      const previous = state
+        .set('timePeriod', 3)
+        .set('principal', 1200)
+        .set('rate', 4)
+        .set('frequency', 1);
+
+      const next = reducer(previous, action);
+      const result = next.get('result').toArray();
+
+      expect(result).toHaveLength(3);
+      expect(result[0].balance).toEqual(1204);
+      expect(result[1].balance).toEqual(1208.0133333333333);
+      expect(result[2].balance).toEqual(1212.0400444444444);
+    });
+
+    it('calculate quaterly', () => {
+      const previous = state
+        .set('timePeriod', 6)
+        .set('principal', 1200)
+        .set('rate', 4)
+        .set('frequency', 3);
+
+      const next = reducer(previous, action);
+      const result = next.get('result').toArray();
+
+      expect(result).toHaveLength(6);
+      expect(result[0].balance).toEqual(1200);
+      expect(result[1].balance).toEqual(1200);
+      expect(result[2].balance).toEqual(1212); // interest paid on 3rd month
+      expect(result[3].balance).toEqual(1212);
+      expect(result[4].balance).toEqual(1212);
+      expect(result[5].balance).toEqual(1224.12); // and 6th month
+    });
+
+    it('do nothing when errors exists', () => {
+      const previous = state.set('hasErrors', true);
+      const next = reducer(previous, action);
+      const expected = previous.get('result');
+      const actual = next.get('result');
+
+      expect(actual).toEqual(expected);
+    });
   });
 });
