@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
-import * as t from './actionTypes';
-import { getSimpleInterestTimeline } from '../../utils/calculator';
+import * as t from './actionTypes'; // it's compound/actionTypes
+import { getCompoundInterestTimeline } from '../../utils/calculator';
 import {
   setPrincipal,
   setRate,
@@ -19,7 +19,7 @@ const initialState = Immutable.fromJS({
   errors: {}
 });
 
-const setResult = resultSetter(getSimpleInterestTimeline);
+const setResult = resultSetter(getCompoundInterestTimeline);
 
 export default (state = initialState, action) => {
   switch (action.type) {

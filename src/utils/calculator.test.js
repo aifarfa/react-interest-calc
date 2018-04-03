@@ -4,8 +4,8 @@ import {
   getCompoundInterestTimeline,
   getSimpleInterestTimeline,
   getPaidInterest,
-  round,
-} from './interest-utils';
+  round
+} from './calculator';
 
 describe('interest utils', () => {
   describe('getAnnualInterest', () => {
@@ -119,9 +119,7 @@ describe('interest utils', () => {
     });
   });
 
-
   describe('simple saving timeline', () => {
-
     describe('getTimeline monthly', () => {
       const getTimeline = getSimpleInterestTimeline(15, 1); // monthly
       const principal = 1000;
@@ -193,7 +191,6 @@ describe('interest utils', () => {
   }); // end simple
 
   describe('compound saving timeline', () => {
-
     describe('monthly', () => {
       let actual;
 
@@ -207,18 +204,18 @@ describe('interest utils', () => {
       it('add up principal', () => {
         expect(actual[0].principal).toEqual(1200);
         expect(actual[1].principal).toEqual(1206);
-      })
+      });
 
       it('increasing interest', () => {
-        expect(actual[0].interest).toEqual(6.00);
+        expect(actual[0].interest).toEqual(6.0);
         expect(actual[1].interest).toEqual(6.03);
-      })
+      });
 
       it('sum up balance', () => {
         const balance = round(actual[11].balance);
         expect(balance).toEqual('1274.01');
       });
-    }); // monthly 
+    }); // monthly
 
     describe('half yearly', () => {
       let actual;
@@ -246,6 +243,6 @@ describe('interest utils', () => {
       it('sum up balance', () => {
         expect(actual[11].balance).toEqual(1273.08);
       });
-    }); // half yearly 
+    }); // half yearly
   });
 });
