@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import * as t from './actionTypes';
 import Decimal from 'decimal.js-light';
-import { getSimpleInterestTimeline } from '../../services/interest-utils';
+import { getSimpleInterestTimeline } from '../../utils/calculator';
 
 const initialState = Immutable.fromJS({
   principal: 1200,
