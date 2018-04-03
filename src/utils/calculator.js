@@ -25,7 +25,7 @@ export const calculateNextMonth = (rate, frequency, isCompound = false) => previ
   return { number, principal, balance, interest, sumInterest };
 };
 
-export const round = number => number.toFixed(2);
+export const round = (number = 0) => number.toFixed(2);
 
 /**
  * @param {number} month total saving time in month

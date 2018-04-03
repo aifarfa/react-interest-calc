@@ -12,6 +12,7 @@ export default props => {
       principal={m.principal}
       interest={m.interest}
       balance={m.balance}
+      sumInterest={m.sumInterest}
     />
   ));
 
@@ -23,6 +24,7 @@ export default props => {
           <th className="text-center">principal</th>
           <th className="text-center">interest</th>
           <th className="text-center">balance</th>
+          <th className="text-center">gained</th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>
