@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ButtonToolbar,
   Button,
@@ -6,20 +6,19 @@ import {
   FormGroup,
   FormControl,
   HelpBlock
-} from "react-bootstrap";
+} from 'react-bootstrap';
 
 /**
- * [SimpleFormComponent Pure function that render props]
- * @type {React.PureComponent}
+ * Reusable saving calculator form component
  */
-export const SimpleFormComponent = props => {
+export default props => {
   return (
     // principal, rate of interest, time period, compound frequency(yearly, half yearly etc.)
     <form>
       <FormGroup controlId="principalText" validationState={props.isValid}>
         <ControlLabel>Principal</ControlLabel>
         <FormControl
-          type="text"
+          type="number"
           value={props.principal}
           placeholder="Enter principal"
           onChange={props.onPrincipalChange}
@@ -31,7 +30,7 @@ export const SimpleFormComponent = props => {
       <FormGroup controlId="rateText" validationState={props.isValid}>
         <ControlLabel>Rate of Interest (%)</ControlLabel>
         <FormControl
-          type="text"
+          type="number"
           value={props.rate}
           placeholder="Enter rate of interest"
           onChange={props.onRateChange}
@@ -42,7 +41,7 @@ export const SimpleFormComponent = props => {
       <FormGroup controlId="timeText" validationState={props.isValid}>
         <ControlLabel>Time period (month)</ControlLabel>
         <FormControl
-          type="text"
+          type="number"
           value={props.timePeriod}
           placeholder="Enter time period"
           onChange={props.onTimePeriodChange}
@@ -50,9 +49,29 @@ export const SimpleFormComponent = props => {
         <FormControl.Feedback />
       </FormGroup>
 
+      <FormGroup controlId="frequency">
+        <ControlLabel>When would you prefer to be paid interest?</ControlLabel>
+        <FormControl
+          componentClass="select"
+          value={props.frequency}
+          onChange={props.onFrequencyChange}>
+          <option value="12">Yearly</option>
+          <option value="6">Half Yearly</option>
+          <option value="3">Quaterly</option>
+          <option value="1">Monthly</option>
+        </FormControl>
+      </FormGroup>
+
       <ButtonToolbar>
-        <Button bsStyle="primary" disabled={props.hasErrors} onClick={props.onSubmit}>Calculate</Button>
-        <Button bsStyle="default" onClick={props.onReset}>Reset</Button>
+        <Button
+          bsStyle="primary"
+          disabled={props.hasErrors}
+          onClick={props.onSubmit}>
+          Calculate
+        </Button>
+        <Button bsStyle="default" onClick={props.onReset}>
+          Reset
+        </Button>
       </ButtonToolbar>
     </form>
   );

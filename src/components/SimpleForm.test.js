@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
-import { SimpleFormComponent } from './SimpleForm';
+import SimpleFormComponent from './SimpleForm';
 import { Button, FormControl } from 'react-bootstrap';
 import * as sinon from 'sinon';
 
@@ -38,6 +38,14 @@ describe('SimpleForm', () => {
     expect(input.prop('value')).toEqual(expected)
   });
 
+  it('renders frequency input', () => {
+    const expected = 6;
+    const form = shallow(<SimpleFormComponent frequency={expected} />);
+    const input = form.find(FormControl).at(3)
+
+    expect(input.prop('value')).toEqual(expected)
+  });
+
   it('handle principal change', () => {
     const action = sinon.spy();
     const form = shallow(<SimpleFormComponent onPrincipalChange={action} />);
@@ -63,6 +71,16 @@ describe('SimpleForm', () => {
     const form = shallow(<SimpleFormComponent onTimePeriodChange={action} />);
     const input = form.find(FormControl).at(2)
     const expected = { target: { value: 12 } }
+
+    input.simulate('change', expected)
+    sinon.assert.calledWith(action, expected)
+  });
+
+  it('handle frequency change', () => {
+    const action = sinon.spy();
+    const form = shallow(<SimpleFormComponent onFrequencyChange={action} />);
+    const input = form.find(FormControl).at(3)
+    const expected = { target: { value: 6 } }
 
     input.simulate('change', expected)
     sinon.assert.calledWith(action, expected)
