@@ -10,14 +10,13 @@ export const getAnnaulInterest = (principal, rate) => {
 };
 
 export const getPaidInterest = (principal, rate, frequency = 1) => {
-  // console.log('getPaidInterest', principal, rate, frequency)
   const annual = getAnnaulInterest(principal, rate);
   return annual.mul(frequency).div(12); // every N month eg. 3/12
 }
 
-export const calculateNextMonth = (rate, frequency) => previous => {
+export const calculateNextMonth = (rate, frequency, isCompound = false) => previous => {
   const number = previous.number + 1;
-  const principal = previous.principal; // simple
+  const principal = isCompound ? previous.balance : previous.principal;
   const interestIsPaid = (number % frequency === 0);
   const interest = interestIsPaid ? getPaidInterest(principal, rate, frequency).toNumber() : 0;
   const balance = add(previous.balance, interest);
@@ -27,34 +26,38 @@ export const calculateNextMonth = (rate, frequency) => previous => {
 
 export const round = number => number.toFixed(2);
 
-export const getNextMonthSimple = (rate, frequency) => {
-  // TODO: apply balance update function
-  return calculateNextMonth(rate, frequency);
-};
-
 /**
- * @param {*} month total saving time in month
- * @param {*} frequency interest paid every N month
+ * @param {number} month total saving time in month
+ * @param {number} frequency interest paid every N month
+ * @param {function} getNext calculate previous => next month
  */
-export const getSimpleInterestTimeline = (month, frequency) => (principal, rate) => {
+export const calculateTimeline = (month, frequency, getNext) => (principal, rate) => {
   // init timeline
   const range = Array(month - 1).keys(); // index
   const timeline = Array.from(range); // [...range] spread 1,2,3..
-  const getNext = getNextMonthSimple(rate, frequency);
+  const next = getNext(rate, frequency);
   const initialValue = {
     number: 0,
     principal,
     interest: 0,
     balance: principal
   };
-  const firstMonth = getNext(initialValue);
+  const firstMonth = next(initialValue, frequency);
   const result = [firstMonth];
 
   return timeline.reduce((list, index) => {
     const previous = list[index];
-    const nextMonth = getNext(previous);
+    const nextMonth = next(previous);
     list.push(nextMonth);
 
     return list;
   }, result);
 };
+
+export const getNextSimple = (rate, frequency) => calculateNextMonth(rate, frequency, false);
+
+export const getNextCompound = (rate, frequency) => calculateNextMonth(rate, frequency, true);
+
+export const getSimpleInterestTimeline = (month, frequency) => calculateTimeline(month, frequency, getNextSimple);
+
+export const getCompoundInterestTimeline = (month, frequency) => calculateTimeline(month, frequency, getNextCompound);

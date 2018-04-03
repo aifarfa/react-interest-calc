@@ -1,6 +1,6 @@
 import {
   getAnnaulInterest,
-  getNextMonthSimple,
+  getNextSimple,
   getSimpleInterestTimeline,
   getPaidInterest,
   round
@@ -46,7 +46,7 @@ describe('interest utils', () => {
     });
   });
 
-  describe('getNextMonth - simple monthly', () => {
+  describe('calculateNext - simple monthly', () => {
     const principal = 1200;
     const rate = 3.3;
     let result;
@@ -59,7 +59,7 @@ describe('interest utils', () => {
         balance: principal,
         interest: interest
       };
-      const getNext = getNextMonthSimple(rate, 1);
+      const getNext = getNextSimple(rate, 1);
       result = getNext(previous);
     });
 
@@ -80,7 +80,7 @@ describe('interest utils', () => {
     });
   });
 
-  describe('getNextMonth - paid quaterly', () => {
+  describe('calculateNext - simple quaterly', () => {
     const principal = 1200;
     const rate = 3.3;
     const firstMonth = {
@@ -93,7 +93,7 @@ describe('interest utils', () => {
     let result;
 
     it('do not add interest until paid time', () => {
-      const getNext = getNextMonthSimple(rate, 3);
+      const getNext = getNextSimple(rate, 3);
       const second = getNext(firstMonth);
       const expected = {
         number: 2,
@@ -105,7 +105,7 @@ describe('interest utils', () => {
     });
 
     it('add interest on third month', () => {
-      const getNext = getNextMonthSimple(rate, 3);
+      const getNext = getNextSimple(rate, 3);
       const second = getNext(firstMonth);
       const third = getNext(second);
       const expected = {
@@ -119,7 +119,7 @@ describe('interest utils', () => {
   });
 
 
-  describe('getSimpleInterestTimeline', () => {
+  describe('simple saving timeline', () => {
 
     describe('getTimeline monthly', () => {
       const getTimeline = getSimpleInterestTimeline(15, 1); // monthly
