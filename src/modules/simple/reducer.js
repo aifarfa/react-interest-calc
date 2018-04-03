@@ -1,7 +1,12 @@
 import Immutable from 'immutable';
 import * as t from './actionTypes';
-import Decimal from 'decimal.js-light';
 import { getSimpleInterestTimeline } from '../../utils/calculator';
+import {
+  setPrincipal,
+  setRate,
+  setTimePeriod,
+  setFrequency
+} from '../../utils/stateUtils';
 
 const initialState = Immutable.fromJS({
   principal: 1200,
@@ -38,30 +43,6 @@ export default (state = initialState, action) => {
   }
 };
 
-function setPrincipal(state, payload) {
-  const setState = stateNumberSetter(state, isPositive);
-  const nextState = setState('principal', payload.value);
-  return nextState;
-}
-
-function setRate(state, payload) {
-  const setState = stateNumberSetter(state, isPercentage);
-  const nextState = setState('rate', payload.value);
-  return nextState;
-}
-
-function setTimePeriod(state, payload) {
-  const setState = stateNumberSetter(state, isPositiveInt);
-  const nextState = setState('timePeriod', payload.value);
-  return nextState;
-}
-
-function setFrequency(state, payload) {
-  const setState = stateNumberSetter(state, isPositiveInt);
-  const nextState = setState('frequency', payload.value);
-  return nextState;
-}
-
 function updateResult(state, payload) {
   if (state.get('hasErrors')) {
     return state;
@@ -74,32 +55,4 @@ function updateResult(state, payload) {
   const result = getTimeline(principal, rate);
 
   return state.set('result', Immutable.List(result));
-}
-
-/**
- * curry function for state setter
- */
-const stateNumberSetter = (state, validate) => (key, value) => {
-  const number = parseFloat(value);
-  const error = !number || !validate(number);
-  const next = state.set(key, number).setIn(['errors', key], error);
-  return next.set('hasErrors', hasErrors(next));
-};
-
-function isPositive(value) {
-  return value > 0;
-}
-
-function isPercentage(value) {
-  return value >= 0 && value <= 100;
-}
-
-function isPositiveInt(value) {
-  const num = new Decimal(value);
-  return num.isPositive() && num.isInteger();
-}
-
-function hasErrors(state) {
-  const errors = state.get('errors').filter(e => e);
-  return errors.size > 0;
 }

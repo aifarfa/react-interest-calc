@@ -1,5 +1,5 @@
 import React from 'react';
-import { round } from '../services/interest-utils';
+import { round } from '../utils/calculator';
 
 export default props => {
   const { number, principal, balance, interest } = props;
@@ -14,5 +14,5 @@ export default props => {
       <td>{rounedInterest}</td>
       <td>{rounedBalance}</td>
     </tr>
-  )
-}
+  );
+};
