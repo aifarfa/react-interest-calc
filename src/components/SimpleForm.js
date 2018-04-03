@@ -14,7 +14,7 @@ import {
 export default props => {
   return (
     // principal, rate of interest, time period, compound frequency(yearly, half yearly etc.)
-    <form>
+    <form className="spacing">
       <FormGroup controlId="principalText" validationState={props.isValid}>
         <ControlLabel>Principal</ControlLabel>
         <FormControl
