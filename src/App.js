@@ -3,6 +3,7 @@ import { Navbar, Nav, NavItem, Grid, Row, Col } from 'react-bootstrap';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import SimpleCalculator from './modules/simple/components/SimpleCalculator';
 import CompoundCalculator from './modules/compound/containers/CompoundCalculator';
+import HomePage from './modules/home';
 import logo from './logo.svg';
 import './App.css';
 
@@ -27,7 +28,7 @@ class App extends Component {
             <Row>
               <Col xs={12} md={8}>
                 <Switch>
-                  <Route exact path="/" component={() => <h1>Home</h1>} />
+                  <Route exact path="/" component={HomePage} />
                   <Route path="/simple" component={SimpleCalculator} />
                   <Route path="/compound" component={CompoundCalculator} />
                   <Route render={() => <h1>Page not found</h1>} />
