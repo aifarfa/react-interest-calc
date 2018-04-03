@@ -1,33 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import SimpleFormComponent from '../../../components/SimpleForm'
+import SimpleFormComponent from '../../../components/SimpleForm';
+import ResultTable from '../../../components/ResultTable';
+
+import { Row, Col } from 'react-bootstrap';
 
 export class SimpleCalculator extends React.PureComponent {
   render() {
     const props = this.props
 
     return (
-      <div>
-        {/* No spread opearator `...props` in ES6!? T_T */}
-        <SimpleFormComponent
-          errors={props.errors}
-          hasErrors={props.hasErrors}
-          principal={props.principal}
-          rate={props.rate}
-          timePeriod={props.timePeriod}
-          frequency={props.frequency}
-          onFrequencyChange={props.onFrequencyChange}
-          onPrincipalChange={props.onPrincipalChange}
-          onRateChange={props.onRateChange}
-          onReset={props.onReset}
-          onSubmit={props.onSubmit}
-          onTimePeriodChange={props.onTimePeriodChange}
-        />
-        <div>
-          <pre>{JSON.stringify(props.result)}</pre>
-        </div>
-      </div>
+      <Row>
+        <Col sm={12} md={6}>
+          {/* No spread opearator `...props` in ES6!? T_T */}
+          <SimpleFormComponent
+            errors={props.errors}
+            hasErrors={props.hasErrors}
+            principal={props.principal}
+            rate={props.rate}
+            timePeriod={props.timePeriod}
+            frequency={props.frequency}
+            onFrequencyChange={props.onFrequencyChange}
+            onPrincipalChange={props.onPrincipalChange}
+            onRateChange={props.onRateChange}
+            onReset={props.onReset}
+            onSubmit={props.onSubmit}
+            onTimePeriodChange={props.onTimePeriodChange}
+          />
+        </Col>
+        <Col sm={12} md={6}>
+          <ResultTable result={props.result} />
+        </Col>
+      </Row>
     )
   }
 }
