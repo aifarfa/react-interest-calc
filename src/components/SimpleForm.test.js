@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
-import { SimpleFormComponent } from './SimpleForm';
+import SimpleFormComponent from './SimpleForm';
 import { Button, FormControl } from 'react-bootstrap';
 import * as sinon from 'sinon';
 
