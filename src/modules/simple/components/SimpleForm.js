@@ -53,6 +53,19 @@ export const SimpleFormComponent = props => {
         <FormControl.Feedback />
       </FormGroup>
 
+      <FormGroup controlId="frequency">
+        <ControlLabel>When would you prefer to be paid interest?</ControlLabel>
+        <FormControl
+          componentClass="select"
+          value={props.frequency}
+          onChange={props.onFrequencyChange}>
+          <option value="12">Yearly</option>
+          <option value="6">Half Yearly</option>
+          <option value="3">Quaterly</option>
+          <option value="1">Monthly</option>
+        </FormControl>
+      </FormGroup>
+
       <ButtonToolbar>
         <Button
           bsStyle="primary"
@@ -81,10 +94,12 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
+    onFrequencyChange: e=> dispatch(actions.setFrequency(e.target.value)),
     onPrincipalChange: e => dispatch(actions.setPrincipal(e.target.value)),
     onRateChange: e => dispatch(actions.setRate(e.target.value)),
     onTimePeriodChange: e => dispatch(actions.setTimePeriod(e.target.value)),
-    onReset: e => dispatch(actions.reset())
+    onReset: e => dispatch(actions.reset()),
+    onSubmit: e => dispatch(actions.submit())
   };
 };
 

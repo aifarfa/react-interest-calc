@@ -7,6 +7,7 @@ const initialState = Immutable.fromJS({
   principal: 1200,
   rate: 5,
   timePeriod: 12,
+  frequency: 12,
   result: [],
   hasErrors: false,
   errors: {}
@@ -81,7 +82,7 @@ function updateResult(state, payload) {
 const stateNumberSetter = (state, validate) => (key, value) => {
   const number = parseFloat(value);
   const error = !number || !validate(number);
-  const next = state.set(key, value).setIn(['errors', key], error);
+  const next = state.set(key, number).setIn(['errors', key], error);
   return next.set('hasErrors', hasErrors(next));
 };
 

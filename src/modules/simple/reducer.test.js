@@ -123,7 +123,7 @@ describe('simple/reducer - actions', () => {
   });
 
   it('setFrequency valid', () => {
-    const action = actions.setFrequency(12);
+    const action = actions.setFrequency('12');
     const next = reducer(state, action).toJS();
     
     expect(next.frequency).toEqual(12);
