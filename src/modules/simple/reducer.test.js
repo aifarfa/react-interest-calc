@@ -133,17 +133,18 @@ describe('simple/reducer - actions', () => {
       expect(next.result).toHaveLength(48);
     });
 
-    xit('calculated actual balance', () => {
+    it('calculated actual balance', () => {
       const previous = state
-        .set('timePeriod', 3)
-        .set('principal', 10000)
+        .set('timePeriod', 12)
+        .set('principal', 1000)
         .set('rate', 4);
 
       const next = reducer(previous, action); // immutable Map
       const result = next.get('result');
-      const last = result.last();
-      // console.log(result.toArray());
-      expect(last.balance).toEqual(10100);
+      const third = result.get(2); // 3rd month
+      const last = result.last(); // 12th month
+      expect(third.balance).toEqual(1010);
+      expect(last.balance).toEqual(1040);
     });
 
     it('do nothing when errors exists', () => {

@@ -59,7 +59,8 @@ function updateResult(state, payload) {
   const month = state.get('timePeriod');
   const principal = state.get('principal');
   const rate = state.get('rate');
-  const getTimeline = getSimpleInterestTimeline(month);
+  const frequency = 1; // TODO
+  const getTimeline = getSimpleInterestTimeline(month, frequency);
   const result = getTimeline(principal, rate);
 
   return state.set('result', Immutable.List(result));
