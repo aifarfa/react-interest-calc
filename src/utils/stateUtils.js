@@ -1,4 +1,5 @@
 import Decimal from 'decimal.js-light';
+import { List } from 'immutable';
 
 /**
  * curry function that apply different validation
@@ -11,6 +12,25 @@ export const stateNumberSetter = (state, validate) => (key, value) => {
   const error = !number || !validate(number);
   const next = state.set(key, number).setIn(['errors', key], error);
   return next.set('hasErrors', hasErrors(next));
+};
+
+/**
+ * apply different calculator (simple or compound)
+ * @param  {function: (month, frequency) => function} timeline calculator function
+ * @return {function: (state, payload) => Map}
+ */
+export const resultSetter = timeline => (state, payload) => {
+  if (state.get('hasErrors')) {
+    return state;
+  }
+  const month = state.get('timePeriod');
+  const principal = state.get('principal');
+  const rate = state.get('rate');
+  const frequency = state.get('frequency');
+  const getTimeline = timeline(month, frequency);
+  const result = getTimeline(principal, rate);
+
+  return state.set('result', List(result));
 };
 
 export function setPrincipal(state, payload) {

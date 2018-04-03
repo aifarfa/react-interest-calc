@@ -5,7 +5,8 @@ import {
   setPrincipal,
   setRate,
   setTimePeriod,
-  setFrequency
+  setFrequency,
+  resultSetter
 } from '../../utils/stateUtils';
 
 const initialState = Immutable.fromJS({
@@ -17,6 +18,8 @@ const initialState = Immutable.fromJS({
   hasErrors: false,
   errors: {}
 });
+
+const setResult = resultSetter(getSimpleInterestTimeline);
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -36,23 +39,9 @@ export default (state = initialState, action) => {
       return setFrequency(state, action.payload);
 
     case t.SUBMIT:
-      return updateResult(state, action.payload);
+      return setResult(state, action.payload);
 
     default:
       return state;
   }
 };
-
-function updateResult(state, payload) {
-  if (state.get('hasErrors')) {
-    return state;
-  }
-  const month = state.get('timePeriod');
-  const principal = state.get('principal');
-  const rate = state.get('rate');
-  const frequency = state.get('frequency');
-  const getTimeline = getSimpleInterestTimeline(month, frequency);
-  const result = getTimeline(principal, rate);
-
-  return state.set('result', Immutable.List(result));
-}

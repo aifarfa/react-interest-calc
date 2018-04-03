@@ -1,10 +1,12 @@
 import Immutable from 'immutable';
-import * as t from './actionTypes';
+import * as t from './actionTypes'; // it's compound/actionTypes
+import { getCompoundInterestTimeline } from '../../utils/calculator';
 import {
   setPrincipal,
   setRate,
   setTimePeriod,
-  setFrequency
+  setFrequency,
+  resultSetter
 } from '../../utils/stateUtils';
 
 const initialState = Immutable.fromJS({
@@ -16,6 +18,8 @@ const initialState = Immutable.fromJS({
   hasErrors: false,
   errors: {}
 });
+
+const setResult = resultSetter(getCompoundInterestTimeline);
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -33,6 +37,9 @@ export default (state = initialState, action) => {
 
     case t.SET_FREQUENCY:
       return setFrequency(state, action.payload);
+
+    case t.SUBMIT:
+      return setResult(state, action.payload);
 
     default:
       return state;
