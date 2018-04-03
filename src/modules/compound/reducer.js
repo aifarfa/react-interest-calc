@@ -13,7 +13,7 @@ const initialState = Immutable.fromJS({
   principal: 1200,
   rate: 5,
   timePeriod: 12,
-  frequency: 6,
+  frequency: 12,
   result: [],
   hasErrors: false,
   errors: {}

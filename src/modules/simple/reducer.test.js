@@ -21,6 +21,7 @@ describe('simple/reducer - actions', () => {
     expect(next.principal).toEqual(1200);
     expect(next.rate).toEqual(5);
     expect(next.timePeriod).toEqual(12);
+    expect(next.frequency).toEqual(12);
   });
 
   it('setPrincipal', () => {
@@ -128,7 +129,7 @@ describe('simple/reducer - actions', () => {
 
     expect(next.frequency).toEqual(12);
     expect(next.errors.frequency).toBeFalsy();
-  })
+  });
 
   it('setFrequency: undefined', () => {
     const action = actions.setFrequency(undefined);
@@ -136,7 +137,7 @@ describe('simple/reducer - actions', () => {
 
     expect(next.errors.frequency).toBeTruthy();
     expect(next.hasErrors).toBeTruthy();
-  })
+  });
 
   it('setFrequency check previous errors', () => {
     const previous = state.setIn(['errors', 'rate'], true); // existing errors
@@ -145,7 +146,7 @@ describe('simple/reducer - actions', () => {
 
     expect(next.errors.frequency).toBeFalsy();
     expect(next.hasErrors).toBeTruthy();
-  })
+  });
 
   describe('submit calculation', () => {
     const action = actions.submit(); // with default state

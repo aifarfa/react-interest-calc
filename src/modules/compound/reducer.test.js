@@ -21,6 +21,7 @@ describe('compound/reducer', () => {
     expect(next.principal).toEqual(1200);
     expect(next.rate).toEqual(5);
     expect(next.timePeriod).toEqual(12);
+    expect(next.frequency).toEqual(12);
   });
 
   it('setPrincipal', () => {
