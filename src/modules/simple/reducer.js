@@ -26,6 +26,9 @@ export default (state = initialState, action) => {
     case t.SET_TIME_PERIOD:
       return setTimePeriod(state, action.payload);
 
+    case t.SET_FREQUENCY:
+      return setFrequency(state, action.payload);
+
     case t.SUBMIT:
       return updateResult(state, action.payload);
 
@@ -49,6 +52,12 @@ function setRate(state, payload) {
 function setTimePeriod(state, payload) {
   const setState = stateNumberSetter(state, isPositiveInt);
   const nextState = setState('timePeriod', payload.value);
+  return nextState;
+}
+
+function setFrequency(state, payload) {
+  const setState = stateNumberSetter(state, isPositiveInt);
+  const nextState = setState('frequency', payload.value);
   return nextState;
 }
 

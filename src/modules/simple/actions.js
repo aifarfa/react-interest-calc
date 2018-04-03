@@ -19,6 +19,11 @@ export const setTimePeriod = (value) => ({
   payload: { value }
 })
 
+export const setFrequency = (value) => ({
+  type: t.SET_FREQUENCY,
+  payload: { value }
+})
+
 export const submit = () => ({
   type: t.SUBMIT,
 })

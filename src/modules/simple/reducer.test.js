@@ -113,6 +113,40 @@ describe('simple/reducer - actions', () => {
     expect(next.hasErrors).toBeTruthy();
   });
 
+  it('setTimePeriod: previous errors', () => {
+    const previous = state.setIn(['errors', 'rate'], true); // existing errors
+    const action = actions.setTimePeriod(60); // valid
+    const next = reducer(previous, action).toJS();
+
+    expect(next.errors.timePeriod).toBeFalsy();
+    expect(next.hasErrors).toBeTruthy();
+  });
+
+  it('setFrequency valid', () => {
+    const action = actions.setFrequency(12);
+    const next = reducer(state, action).toJS();
+    
+    expect(next.frequency).toEqual(12);
+    expect(next.errors.frequency).toBeFalsy();
+  })
+
+  it('setFrequency: undefined', () => {
+    const action = actions.setFrequency(undefined);
+    const next = reducer(state, action).toJS();
+    
+    expect(next.errors.frequency).toBeTruthy();
+    expect(next.hasErrors).toBeTruthy();
+  })
+
+  it('setFrequency check previous errors', () => {
+    const previous = state.setIn(['errors', 'rate'], true); // existing errors
+    const action = actions.setFrequency(6);
+    const next = reducer(previous, action).toJS();
+
+    expect(next.errors.frequency).toBeFalsy();
+    expect(next.hasErrors).toBeTruthy();
+  })
+
   describe('submit calculation', () => {
     const action = actions.submit(); // with default state
 
