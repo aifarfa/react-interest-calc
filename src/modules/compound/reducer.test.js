@@ -34,9 +34,10 @@ describe('compound/reducer', () => {
   });
 
   it('setPrincipal: NaN', () => {
-    const action = actions.setPrincipal('abc0');
+    const action = actions.setPrincipal('');
     const next = reducer(state, action).toJS();
 
+    expect(next.principal).toEqual('');
     expect(next.errors.principal).toBeTruthy();
     expect(next.hasErrors).toBeTruthy();
   });
@@ -59,9 +60,10 @@ describe('compound/reducer', () => {
   });
 
   it('setRate: NaN', () => {
-    const action = actions.setRate('-xyz');
+    const action = actions.setRate('');
     const next = reducer(state, action).toJS();
 
+    expect(next.rate).toEqual('');
     expect(next.errors.rate).toBeTruthy();
     expect(next.hasErrors).toBeTruthy();
   });
