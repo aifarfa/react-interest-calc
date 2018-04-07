@@ -29,7 +29,7 @@ class App extends Component {
           </Navbar>
           <Grid>
             <Row>
-              <Col xs={12} md={8}>
+              <Col xs={12} md={10}>
                 <Switch>
                   <Route exact path="/" component={HomePage} />
                   <Route path="/simple" component={SimpleCalculator} />
