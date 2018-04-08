@@ -16,7 +16,6 @@ export const getPaidInterest = (principal, rate, frequency = 1) => {
 
 const getYear = month => new Decimal(month)
     .dividedToIntegerBy(12)
-    .add(1)
     .toNumber();
 
 export const calculateNextMonth = (rate, frequency, isCompound = false) => previous => {

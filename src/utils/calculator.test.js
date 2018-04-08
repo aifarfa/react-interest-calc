@@ -56,7 +56,7 @@ describe('interest utils', () => {
       const interest = getPaidInterest(principal, rate, 1);
       const previous = {
         number: 1,
-        year: 1,
+        year: 0,
         principal: principal,
         balance: principal,
         interest: interest,
@@ -92,7 +92,7 @@ describe('interest utils', () => {
     const rate = 3.3;
     const firstMonth = {
       number: 1,
-      year: 1,
+      year: 0,
       principal: principal,
       balance: principal,
       interest: 0,
@@ -106,7 +106,7 @@ describe('interest utils', () => {
       const second = getNext(firstMonth);
       const expected = {
         number: 2,
-        year: 1,
+        year: 0,
         principal: 1200,
         balance: 1200,
         interest: 0,
@@ -121,7 +121,7 @@ describe('interest utils', () => {
       const third = getNext(second);
       const expected = {
         number: 3,
-        year: 1,
+        year: 0,
         principal: 1200,
         balance: 1209.9,
         interest: 9.9,
