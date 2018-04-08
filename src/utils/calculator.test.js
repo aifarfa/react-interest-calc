@@ -27,22 +27,22 @@ describe('interest utils', () => {
 
   describe('getPaidInterest', () => {
     it('paid monthly', () => {
-      const interest = getPaidInterest(1000, 4, 1).toNumber();
+      const interest = getPaidInterest(1000, 4, 1);
       expect(interest).toEqual(3.3333333333333335);
     });
 
     it('paid quaterly', () => {
-      const interest = getPaidInterest(1000, 4, 3).toNumber();
+      const interest = getPaidInterest(1000, 4, 3);
       expect(interest).toEqual(10);
     });
 
     it('get half-yearly', () => {
-      const interest = getPaidInterest(1200, 2.5, 6).toNumber();
+      const interest = getPaidInterest(1200, 2.5, 6);
       expect(interest).toEqual(15);
     });
 
     it('get annually', () => {
-      const interest = getPaidInterest(1200, 2.5, 12).toNumber();
+      const interest = getPaidInterest(1200, 2.5, 12);
       expect(interest).toEqual(30);
     });
   });
@@ -56,6 +56,7 @@ describe('interest utils', () => {
       const interest = getPaidInterest(principal, rate, 1);
       const previous = {
         number: 1,
+        year: 1,
         principal: principal,
         balance: principal,
         interest: interest,
@@ -91,6 +92,7 @@ describe('interest utils', () => {
     const rate = 3.3;
     const firstMonth = {
       number: 1,
+      year: 1,
       principal: principal,
       balance: principal,
       interest: 0,
@@ -104,6 +106,7 @@ describe('interest utils', () => {
       const second = getNext(firstMonth);
       const expected = {
         number: 2,
+        year: 1,
         principal: 1200,
         balance: 1200,
         interest: 0,
@@ -118,6 +121,7 @@ describe('interest utils', () => {
       const third = getNext(second);
       const expected = {
         number: 3,
+        year: 1,
         principal: 1200,
         balance: 1209.9,
         interest: 9.9,
