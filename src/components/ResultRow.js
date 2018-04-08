@@ -1,5 +1,5 @@
 import React from 'react';
-import { round } from '../utils/calculator';
+import { round } from '../commons/calculator';
 
 export default props => {
   const { number, principal, balance, interest, sumInterest } = props;

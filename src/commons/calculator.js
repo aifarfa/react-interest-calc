@@ -54,8 +54,7 @@ export const calculateTimeline = (month, frequency, getNext) => (
     principal,
     interest: 0,
     sumInterest: 0,
-    balance: principal,
-    year: 1
+    balance: principal
   };
   const firstMonth = next(initialValue, frequency);
   const result = [firstMonth];

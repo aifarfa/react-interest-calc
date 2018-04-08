@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, Nav, NavItem, Grid, Row, Col } from 'react-bootstrap';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import SimpleCalculator from './modules/simple/components/SimpleCalculator';
+import SimpleCalculator from './modules/simple/containers/SimpleCalculator';
 import CompoundCalculator from './modules/compound/containers/CompoundCalculator';
 import HomePage from './modules/home';
 import logo from './logo.svg';

@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import * as t from './actionTypes';
-import { getSimpleInterestTimeline } from '../../utils/calculator';
+import { getSimpleInterestTimeline } from '../../commons/calculator';
 import {
   setPrincipal,
   setRate,
@@ -8,7 +8,7 @@ import {
   setFrequency,
   toggleMonthlyResult,
   resultSetter
-} from '../../utils/stateUtils';
+} from '../../commons/stateUtils';
 
 const initialState = Immutable.fromJS({
   principal: 1200,
