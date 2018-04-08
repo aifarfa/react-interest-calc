@@ -15,16 +15,18 @@ export default props => {
           rate={props.rate}
           timePeriod={props.timePeriod}
           frequency={props.frequency}
+          showMonthly={props.showMonthly}
           onFrequencyChange={props.onFrequencyChange}
           onPrincipalChange={props.onPrincipalChange}
           onRateChange={props.onRateChange}
           onReset={props.onReset}
           onSubmit={props.onSubmit}
           onTimePeriodChange={props.onTimePeriodChange}
+          onToggleMonthly={props.onToggleMonthly}
         />
       </Col>
       <Col sm={12} md={6}>
-        <ResultTable result={props.result} />
+        <ResultTable result={props.result} monthly={props.showMonthly} />
       </Col>
     </Row>
   );

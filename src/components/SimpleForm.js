@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ButtonToolbar,
   Button,
+  Checkbox,
   ControlLabel,
   FormGroup,
   FormControl
@@ -22,13 +23,13 @@ export default props => {
 
   return (
     // principal, rate of interest, time period, compound frequency(yearly, half yearly etc.)
-    <form className="spacing">
+    <form className='spacing'>
       <FormGroup validationState={validation.principal}>
         <ControlLabel>Principal</ControlLabel>
         <FormControl
-          type="number"
+          type='number'
           value={props.principal}
-          placeholder="Enter principal"
+          placeholder='Enter principal'
           onChange={props.onPrincipalChange}
         />
         <FormControl.Feedback />
@@ -37,9 +38,9 @@ export default props => {
       <FormGroup validationState={validation.rate}>
         <ControlLabel>Rate of Interest (%)</ControlLabel>
         <FormControl
-          type="number"
+          type='number'
           value={props.rate}
-          placeholder="Enter rate of interest"
+          placeholder='Enter rate of interest'
           onChange={props.onRateChange}
         />
         <FormControl.Feedback />
@@ -48,35 +49,37 @@ export default props => {
       <FormGroup validationState={validation.timePeriod}>
         <ControlLabel>Time period (month)</ControlLabel>
         <FormControl
-          type="number"
+          type='number'
           value={props.timePeriod}
-          placeholder="Enter time period"
+          placeholder='Enter time period'
           onChange={props.onTimePeriodChange}
         />
         <FormControl.Feedback />
       </FormGroup>
 
-      <FormGroup controlId="frequency">
+      <FormGroup controlId='frequency'>
         <ControlLabel>When would you prefer to be paid interest?</ControlLabel>
         <FormControl
-          componentClass="select"
+          componentClass='select'
           value={props.frequency}
           onChange={props.onFrequencyChange}>
-          <option value="12">Yearly</option>
-          <option value="6">Half Yearly</option>
-          <option value="3">Quaterly</option>
-          <option value="1">Monthly</option>
+          <option value='12'>Yearly</option>
+          <option value='6'>Half Yearly</option>
+          <option value='3'>Quaterly</option>
+          <option value='1'>Monthly</option>
         </FormControl>
       </FormGroup>
 
+      <Checkbox checked={props.showMonthly} onChange={props.onToggleMonthly}>show result monthly?</Checkbox>
+
       <ButtonToolbar>
         <Button
-          bsStyle="primary"
+          bsStyle='primary'
           disabled={props.hasErrors}
           onClick={props.onSubmit}>
           Calculate
         </Button>
-        <Button bsStyle="default" onClick={props.onReset}>
+        <Button bsStyle='default' onClick={props.onReset}>
           Reset
         </Button>
       </ButtonToolbar>

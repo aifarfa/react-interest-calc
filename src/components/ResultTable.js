@@ -28,9 +28,8 @@ export default props => {
         <tr>
           <th className="text-center">{mode}</th>
           <th className="text-center">principal</th>
-          <th className="text-center">interest</th>
+          <th className="text-center">sum interest</th>
           <th className="text-center">balance</th>
-          <th className="text-center">gained</th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>
