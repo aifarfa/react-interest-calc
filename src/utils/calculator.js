@@ -27,9 +27,11 @@ export const calculateNextMonth = (rate, frequency, isCompound = false) => previ
     ? getPaidInterest(principal, rate, frequency)
     : 0;
   const balance = add(previous.balance, interest);
+  const isYearEnd = (previous.number % 12 === 0);
+  const yearInterest = isYearEnd ? interest : add(previous.yearInterest, interest);
   const sumInterest = add(interest, previous.sumInterest);
 
-  return { number, year, principal, balance, interest, sumInterest };
+  return { number, year, principal, balance, interest, sumInterest, yearInterest };
 };
 
 export const round = (number = 0) => number.toFixed(2);

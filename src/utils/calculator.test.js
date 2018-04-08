@@ -110,6 +110,7 @@ describe('interest utils', () => {
         principal: 1200,
         balance: 1200,
         interest: 0,
+        yearInterest: 0,
         sumInterest: 0
       };
       expect(second).toEqual(expected);
@@ -125,9 +126,45 @@ describe('interest utils', () => {
         principal: 1200,
         balance: 1209.9,
         interest: 9.9,
+        yearInterest: 9.9,
         sumInterest: 9.9
       };
       expect(third).toEqual(expected);
+    });
+  });
+
+  describe('calculateNext - yearInterest', () => {
+    const principal = 1000;
+    const rate = 5;
+    const getNext = getNextSimple(rate, 12);
+
+    it('add yearInterest', () => {
+      const previous = {
+        number: 11,
+        year: 0,
+        principal: 1000,
+        balance: 1000,
+        interest: 50,
+        sumInterest: 0,
+        yearInterest: 0
+      };
+      const next = getNext(previous);
+      expect(next.yearInterest).toEqual(50);
+    });
+
+    it('reset yearInterest every 12 months', () => {
+      const previous = {
+        number: 12, // end of year
+        year: 1,
+        principal: 1000,
+        balance: 1000,
+        interest: 0,
+        sumInterest: 0,
+        yearInterest: 100
+      };
+
+      const next = getNext(previous);
+      expect(next.yearInterest).toEqual(0);
     });
   });
 
