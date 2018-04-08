@@ -89,7 +89,7 @@ describe('interest utils', () => {
 
   describe('calculateNext - simple quaterly', () => {
     const principal = 1200;
-    const rate = 3.3;
+    const getNext = getNextSimple(3.3, 3);
     const firstMonth = {
       number: 1,
       year: 0,
@@ -102,7 +102,6 @@ describe('interest utils', () => {
     let result;
 
     it('do not add interest until paid time', () => {
-      const getNext = getNextSimple(rate, 3);
       const second = getNext(firstMonth);
       const expected = {
         number: 2,
@@ -117,7 +116,6 @@ describe('interest utils', () => {
     });
 
     it('add interest on third month', () => {
-      const getNext = getNextSimple(rate, 3);
       const second = getNext(firstMonth);
       const third = getNext(second);
       const expected = {
@@ -134,9 +132,7 @@ describe('interest utils', () => {
   });
 
   describe('calculateNext - yearInterest', () => {
-    const principal = 1000;
-    const rate = 5;
-    const getNext = getNextSimple(rate, 12);
+    const getNext = getNextSimple(5, 12);
 
     it('add yearInterest', () => {
       const previous = {
