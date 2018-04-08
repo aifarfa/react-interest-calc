@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import SimpleFormComponent from './SimpleForm';
-import { Button, FormControl, FormGroup } from 'react-bootstrap';
+import { Button, Checkbox, FormControl, FormGroup } from 'react-bootstrap';
 
 describe('SimpleForm', () => {
   it('renders without crashing', () => {
@@ -119,6 +119,22 @@ describe('SimpleForm', () => {
     const button = form.find(Button).first();
 
     expect(button.prop('disabled')).toBe(false);
+  });
+
+  it('render showMonthly', () => {
+    const form = shallow(<SimpleFormComponent showMonthly />);
+    const checkbox = form.find(Checkbox).first();
+
+    expect(checkbox.prop('checked')).toBe(true);
+  });
+
+  it('toggle showMonthly', () => {
+    const onChange = jest.fn();
+    const form = shallow(<SimpleFormComponent onToggleMonthly={onChange} />);
+    const checkbox = form.find(Checkbox).first();
+    checkbox.simulate('change', {})
+
+    expect(onChange).toBeCalled();
   });
 
   it('calls onSubmit when clicked', () => {

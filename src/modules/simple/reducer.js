@@ -1,20 +1,22 @@
 import Immutable from 'immutable';
 import * as t from './actionTypes';
-import { getSimpleInterestTimeline } from '../../utils/calculator';
+import { getSimpleInterestTimeline } from '../../commons/calculator';
 import {
   setPrincipal,
   setRate,
   setTimePeriod,
   setFrequency,
+  toggleMonthlyResult,
   resultSetter
-} from '../../utils/stateUtils';
+} from '../../commons/stateUtils';
 
 const initialState = Immutable.fromJS({
   principal: 1200,
   rate: 5,
-  timePeriod: 12,
+  timePeriod: 36,
   frequency: 12,
   result: [],
+  showMonthly: false,
   hasErrors: false,
   errors: {}
 });
@@ -37,6 +39,9 @@ export default (state = initialState, action) => {
 
     case t.SET_FREQUENCY:
       return setFrequency(state, action.payload);
+
+    case t.SHOW_MONTHLY_RESULT:
+      return toggleMonthlyResult(state, action.payload);
 
     case t.SUBMIT:
       return setResult(state, action.payload);

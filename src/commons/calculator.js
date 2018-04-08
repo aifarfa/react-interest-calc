@@ -11,18 +11,27 @@ export const getAnnaulInterest = (principal, rate) => {
 
 export const getPaidInterest = (principal, rate, frequency = 1) => {
   const annual = getAnnaulInterest(principal, rate);
-  return annual.mul(frequency).div(12); // every N month eg. 3/12
-}
+  return annual.mul(frequency).div(12).toNumber(); // every N month eg. 3/12
+};
+
+const getYear = month => new Decimal(month)
+    .dividedToIntegerBy(12)
+    .toNumber();
 
 export const calculateNextMonth = (rate, frequency, isCompound = false) => previous => {
   const number = previous.number + 1;
+  const year = getYear(number);
   const principal = isCompound ? previous.balance : previous.principal;
-  const interestIsPaid = (number % frequency === 0);
-  const interest = interestIsPaid ? getPaidInterest(principal, rate, frequency).toNumber() : 0;
+  const interestIsPaid = number % frequency === 0;
+  const interest = interestIsPaid
+    ? getPaidInterest(principal, rate, frequency)
+    : 0;
   const balance = add(previous.balance, interest);
+  const isYearEnd = (previous.number % 12 === 0);
+  const yearInterest = isYearEnd ? interest : add(previous.yearInterest, interest);
   const sumInterest = add(interest, previous.sumInterest);
 
-  return { number, principal, balance, interest, sumInterest };
+  return { number, year, principal, balance, interest, sumInterest, yearInterest };
 };
 
 export const round = (number = 0) => number.toFixed(2);
@@ -32,7 +41,10 @@ export const round = (number = 0) => number.toFixed(2);
  * @param {number} frequency interest paid every N month
  * @param {function} getNext calculate previous => next month
  */
-export const calculateTimeline = (month, frequency, getNext) => (principal, rate) => {
+export const calculateTimeline = (month, frequency, getNext) => (
+  principal,
+  rate
+) => {
   // init timeline
   const range = Array(month - 1).keys(); // index
   const timeline = Array.from(range); // [...range] spread 1,2,3..
@@ -56,10 +68,14 @@ export const calculateTimeline = (month, frequency, getNext) => (principal, rate
   }, result);
 };
 
-export const getNextSimple = (rate, frequency) => calculateNextMonth(rate, frequency, false);
+export const getNextSimple = (rate, frequency) =>
+  calculateNextMonth(rate, frequency, false);
 
-export const getNextCompound = (rate, frequency) => calculateNextMonth(rate, frequency, true);
+export const getNextCompound = (rate, frequency) =>
+  calculateNextMonth(rate, frequency, true);
 
-export const getSimpleInterestTimeline = (month, frequency) => calculateTimeline(month, frequency, getNextSimple);
+export const getSimpleInterestTimeline = (month, frequency) =>
+  calculateTimeline(month, frequency, getNextSimple);
 
-export const getCompoundInterestTimeline = (month, frequency) => calculateTimeline(month, frequency, getNextCompound);
+export const getCompoundInterestTimeline = (month, frequency) =>
+  calculateTimeline(month, frequency, getNextCompound);
