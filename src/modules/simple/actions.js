@@ -24,6 +24,11 @@ export const setFrequency = (value) => ({
   payload: { value }
 })
 
+export const showMonthly = (value) => ({
+  type: t.SHOW_MONTHLY_RESULT,
+  payload: { value }
+})
+
 export const submit = () => ({
   type: t.SUBMIT,
 })

@@ -6,15 +6,17 @@ import {
   setRate,
   setTimePeriod,
   setFrequency,
+  toggleMonthlyResult,
   resultSetter
 } from '../../utils/stateUtils';
 
 const initialState = Immutable.fromJS({
   principal: 1200,
   rate: 5,
-  timePeriod: 12,
+  timePeriod: 36,
   frequency: 12,
   result: [],
+  showMonthly: false,
   hasErrors: false,
   errors: {}
 });
@@ -37,6 +39,9 @@ export default (state = initialState, action) => {
 
     case t.SET_FREQUENCY:
       return setFrequency(state, action.payload);
+
+    case t.SHOW_MONTHLY_RESULT:
+      return toggleMonthlyResult(state, action.payload);
 
     case t.SUBMIT:
       return setResult(state, action.payload);

@@ -20,7 +20,7 @@ describe('simple/reducer - actions', () => {
 
     expect(next.principal).toEqual(1200);
     expect(next.rate).toEqual(5);
-    expect(next.timePeriod).toEqual(12);
+    expect(next.timePeriod).toEqual(36);
     expect(next.frequency).toEqual(12);
   });
 
@@ -146,6 +146,21 @@ describe('simple/reducer - actions', () => {
 
     expect(next.errors.frequency).toBeFalsy();
     expect(next.hasErrors).toBeTruthy();
+  });
+
+  it('showMonthly: true', () => {
+    const action = actions.showMonthly(true);
+    const next = reducer(state, action).toJS();
+
+    expect(next.showMonthly).toBe(true);
+  });
+
+  it('showMonthly: false', () => {
+    const previous = state.set('showMonthly', true);
+    const action = actions.showMonthly(false);
+    const next = reducer(state, action).toJS();
+
+    expect(next.showMonthly).toBe(false);
   });
 
   describe('submit calculation', () => {

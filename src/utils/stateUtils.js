@@ -58,6 +58,10 @@ export function setFrequency(state, payload) {
   return nextState;
 }
 
+export function toggleMonthlyResult(state, payload) {
+  return state.set('showMonthly', payload.value);
+}
+
 export function isPositive(value) {
   return value > 0;
 }
